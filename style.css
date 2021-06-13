@@ -4,13 +4,43 @@
     background-position: 0%, 50%;
     background-repeat: no-repeat;
     background-size: 100%;
-    border: 1px solid blue;
     height: 100%;
     top: 0;
     left: 0;
     z-index: -1;
 }
 
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    color: #74FCB5;
+    font-family:'Courier New', Courier, monospace;
+    font-size: 30px;
+    margin: 0 40px;
+}
+
+#header1 {
+    text-align: center;
+}
+
+#header2 {
+    text-align: center;
+}
+
+#start-btn-div {
+    display: flex;
+    justify-content: center;
+}
+
 #start-button {
+    position: absolute;
+    bottom: 10%;
     z-index: 1;
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    color: #74FCB5;
+    font-family:'Courier New', Courier, monospace;
+    font-size: 40px;
 }

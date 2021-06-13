@@ -8,12 +8,17 @@
     <title>Rainy Witch</title>
 </head>
 <body>
-    <button id="start-button">StartGame</button>
+    <header>
+        <div id = "header1"><p>Points<br><span id = "points">0</span></p></div>
+        <div id = "header2"><p id = "health-p">Health<br><span id = "health">100%</span></p></div>
+    </header>
+    <div id = "start-btn-div">
+        <button id="start-button">Start Game</button>
+    </div> 
     <div id="game-board">
-        <canvas id="canvasId" width="1000" height="500"></canvas>
+        <canvas id="canvasId" width="4000" height="2250"></canvas>
     </div>
 
-    <script type="text/javascript" src="witch.js"></script>
     <script type="text/javascript" src="game.js"></script>
 </body>
 </html>
