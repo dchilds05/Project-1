@@ -29,6 +29,9 @@ window.onload = () => {
     let healthPointsHTML = document.querySelector("#health");
     let healthPoints = 100;
 
+    let pointsHTML = document.querySelector("#points");
+    let score = 0;
+
     let rainArray = [];
 
     let pumpkinArray = [];
@@ -52,6 +55,7 @@ window.onload = () => {
             healthPoints -= (1/5);
         }
         healthPointsHTML.innerText = `${Math.round(healthPoints)} %`;
+        pointsHTML.innerText = score;
         
         rainArray.forEach((drop) => {
             drop.draw();
@@ -61,6 +65,7 @@ window.onload = () => {
         pumpkinArray.forEach((item) => {
             item.draw();
             item.move();
+            item.checkForWitchContact();
         });
 
         console.log(rainArray.length);
@@ -187,7 +192,19 @@ window.onload = () => {
             } else {
 				this.y += this.speed;
 			}
+        }
 
+        checkForWitchContact(){
+            let contactWithWitch = 
+                witch.x < this.x + this.width &&
+                witch.x + witch.width > this.x &&
+                witch.y < this.y + this.height &&
+                witch.y + witch.height > this.y;
+
+            if(contactWithWitch){
+                pumpkinArray.splice(this, 1);
+                score++;
+            }
         }
     }
 
