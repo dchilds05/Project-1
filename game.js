@@ -3,7 +3,7 @@ window.onload = () => {
     const canvas = document.getElementById('canvasId');
     const canvasCtx = canvas.getContext('2d');
 
-    let gameInterval = null;
+    let frameId = null;
 
     let startBtn = document.getElementById('start-button');
 
@@ -14,13 +14,7 @@ window.onload = () => {
     header2Display.style.display = "none";
 
     startBtn.onclick = () => {
-        startGame();
-        setInterval(function () {  //CHANGE TO REQUESTANIMATIONFRAME
-            rainArray.push(new Rain());
-        }, 10);
-        setInterval(function () {
-            pumpkinArray.push(new Pumpkin());
-        }, 5500);
+        gameLoop();
         startBtn.style.display = "none";
         header1Display.style.display = "block";
         header2Display.style.display = "block";
@@ -36,12 +30,24 @@ window.onload = () => {
 
     let pumpkinArray = [];
 
-    function startGame() {
-        gameInterval = requestAnimationFrame(startGame);
+    function gameLoop() {
+        if(score >= 3) {
+            cancelAnimationFrame(frameId);
+            alert('You Won!');
+            window.location.reload(); 
+        } else if (Math.round(healthPoints) === 0) {
+            cancelAnimationFrame(frameId);
+            alert('You Lost!');
+            window.location.reload(); 
+        } else {
+        
         canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
 
         witch.draw();
         barra.draw();
+
+        if(frameId % 1 === 0) rainArray.push(new Rain());
+        if(frameId % 324 === 0) pumpkinArray.push(new Pumpkin());
 
         let witchBelowBarra = 
         witch.x > barra.x  - (witch.width/2) &&
@@ -68,13 +74,9 @@ window.onload = () => {
             item.checkForWitchContact();
         });
 
-        if(score >= 3) {
-            setTimeout(function () {
-                cancelAnimationFrame(gameInterval);
-                alert('You Won!');
-                //window.location.reload(); //I CAN IMPLEMENT THIS AS SOON AS I CONVERT MY TIMEOUTINTERVALS TO REQUESTANIMATIONFRAME
-            }, 500);
-        }
+        frameId = requestAnimationFrame(gameLoop);
+
+    } 
     }
 
     let witchImgRight = new Image();
