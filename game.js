@@ -15,7 +15,7 @@ window.onload = () => {
 
     startBtn.onclick = () => {
         startGame();
-        setInterval(function () {
+        setInterval(function () {  //CHANGE TO REQUESTANIMATIONFRAME
             rainArray.push(new Rain());
         }, 10);
         setInterval(function () {
@@ -37,9 +37,9 @@ window.onload = () => {
     let pumpkinArray = [];
 
     function startGame() {
-        //CAN YOU EXPLAIN HOW THIS WORKS? WHY IS THE DRAW FUNCTION CALLED INFINITELY?
         gameInterval = requestAnimationFrame(startGame);
         canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+
         witch.draw();
         barra.draw();
 
@@ -68,8 +68,13 @@ window.onload = () => {
             item.checkForWitchContact();
         });
 
-        console.log(rainArray.length);
-        console.log(pumpkinArray.length);
+        if(score >= 3) {
+            setTimeout(function () {
+                cancelAnimationFrame(gameInterval);
+                alert('You Won!');
+                //window.location.reload(); //I CAN IMPLEMENT THIS AS SOON AS I CONVERT MY TIMEOUTINTERVALS TO REQUESTANIMATIONFRAME
+            }, 500);
+        }
     }
 
     let witchImgRight = new Image();
