@@ -18,6 +18,9 @@ window.onload = () => {
         setInterval(function () {
             rainArray.push(new Rain());
         }, 10);
+        setInterval(function () {
+            pumpkinArray.push(new Pumpkin());
+        }, 5500);
         startBtn.style.display = "none";
         header1Display.style.display = "block";
         header2Display.style.display = "block";
@@ -25,6 +28,10 @@ window.onload = () => {
 
     let healthPointsHTML = document.querySelector("#health");
     let healthPoints = 100;
+
+    let rainArray = [];
+
+    let pumpkinArray = [];
 
     function startGame() {
         //CAN YOU EXPLAIN HOW THIS WORKS? WHY IS THE DRAW FUNCTION CALLED INFINITELY?
@@ -50,7 +57,14 @@ window.onload = () => {
             drop.draw();
             drop.move();
         });
-        console.log(rainArray.length)
+        
+        pumpkinArray.forEach((item) => {
+            item.draw();
+            item.move();
+        });
+
+        console.log(rainArray.length);
+        console.log(pumpkinArray.length);
     }
 
     let witchImgRight = new Image();
@@ -119,7 +133,7 @@ window.onload = () => {
         }
 
         move(){
-            let rainTouchingBarra = 
+            let touchingBarra = 
             this.xPos > barra.x &&
             this.xPos < barra.x + barra.width &&
             this.yPos + this.yRad > barra.y - 20 &&
@@ -128,7 +142,7 @@ window.onload = () => {
 
             if (this.yPos > canvas.height) {
 				rainArray.splice(this, 1);
-            } else if (rainTouchingBarra){
+            } else if (touchingBarra){
                 this.yPos = 0;
                 this.xPos = Math.random() * canvas.width;
             } else {
@@ -138,9 +152,46 @@ window.onload = () => {
         }
     }
 
-    let rainArray = [];
 
-    
+
+    let pumpkinImg = new Image();
+    pumpkinImg.src = './images/pumpkin.png';
+
+    class Pumpkin {
+        constructor() {
+            this.image = pumpkinImg,
+            this.x = Math.random() * canvas.width,
+            this.y = 0,
+            this.height = canvas.height / 12,
+            this.width = canvas.width / 24,
+            this.speed = 5;
+        }
+
+        draw(){
+            canvasCtx.drawImage(this.image, this.x, this.y, this.width, this.height);
+        }
+
+        move(){
+            let touchingBarra = 
+            this.x > barra.x &&
+            this.x < barra.x + barra.width &&
+            this.y + this.height > barra.y - 20 &&
+            this.y + this.height < barra.y + barra.height;
+
+
+            if (this.y > canvas.height) {
+				pumpkinArray.splice(this, 1);
+            } else if (touchingBarra){
+                this.y = 0;
+                this.x = Math.random() * canvas.width;
+            } else {
+				this.y += this.speed;
+			}
+
+        }
+    }
+
+
 
 
     window.addEventListener('keydown', moveWitch);
