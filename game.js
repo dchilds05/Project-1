@@ -9,12 +9,15 @@ window.onload = () => {
 
     let header1Display = document.querySelector("#header1");
     let header2Display = document.querySelector("#header2");
-    
+
     header1Display.style.display = "none";
     header2Display.style.display = "none";
 
     startBtn.onclick = () => {
         startGame();
+        setInterval(function () {
+            rainArray.push(new Rain());
+        }, 10);
         startBtn.style.display = "none";
         header1Display.style.display = "block";
         header2Display.style.display = "block";
@@ -42,13 +45,12 @@ window.onload = () => {
             healthPoints -= (1/5);
         }
         healthPointsHTML.innerText = `${Math.round(healthPoints)} %`;
-
+        
         rainArray.forEach((drop) => {
             drop.draw();
             drop.move();
         });
-
-        console.log(`Array length: ${rainArray.length}`)
+        console.log(rainArray.length)
     }
 
     let witchImgRight = new Image();
@@ -56,15 +58,15 @@ window.onload = () => {
 
     let witchImgLeft = new Image();
     witchImgLeft.src = './images/witchLeft.png';
-        
-    
+
+
     const witch = {
         image: witchImgRight,
         x: canvas.width / 2,
         y: canvas.height / 2,
         height: canvas.height / 10,
         width: canvas.width / 11.25,
-        speed: 120,
+        speed: 125,
         draw () {
             canvasCtx.drawImage(this.image, this.x, this.y, this.width, this.height);
         }
@@ -104,9 +106,9 @@ window.onload = () => {
         constructor() {
             this.xPos = Math.random() * canvas.width,
             this.yPos = 0,
-            this.xRad = canvas.width * (5/4000),
-            this.yRad = canvas.height * (70/2250),
-            this.speed = 30;
+            this.xRad = 5,
+            this.yRad = 70,
+            this.speed = 50;
         }
 
         draw(){
@@ -123,7 +125,7 @@ window.onload = () => {
             this.yPos + this.yRad > barra.y - 20 &&
             this.yPos + this.yRad < barra.y + barra.height;
 
-           
+
             if (this.yPos > canvas.height) {
 				rainArray.splice(this, 1);
             } else if (rainTouchingBarra){
@@ -132,21 +134,19 @@ window.onload = () => {
             } else {
 				this.yPos += this.speed;
 			}
-           
+
         }
     }
 
     let rainArray = [];
 
-    setInterval(function () {
-		rainArray.push(new Rain());
-	}, 10);
+    
 
 
     window.addEventListener('keydown', moveWitch);
 
 	function moveWitch(event) {
-        
+
         let witchTouchingBarra = 
         witch.x < barra.x + barra.width &&
         witch.x + witch.width > barra.x &&
@@ -199,7 +199,7 @@ window.onload = () => {
             default:
                 break;
 		}
-    
+
     }
 
 };

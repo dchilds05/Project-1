@@ -1,10 +1,11 @@
 #canvasId {
-    position: absolute;
+    position: fixed;
     background-image: url(./images/background.jpeg);
-    background-position: 0%, 50%;
+    background-position: center, center;
     background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: cover;
     height: 100%;
+    width: 100%;
     top: 0;
     left: 0;
     z-index: -1;
