@@ -9,6 +9,11 @@ window.onload = () => {
 
     let header1Display = document.querySelector("#header1");
     let header2Display = document.querySelector("#header2");
+    let headerImages = document.querySelector("#header-images");
+    let middleSection = document.querySelector("#middle-section");
+    let middleDiv = document.querySelector("#middle-div");
+    let bodyDiv = document.querySelector("#body-div");
+    let footerImages = document.querySelector("#footer-images");
 
     header1Display.style.display = "none";
     header2Display.style.display = "none";
@@ -16,6 +21,11 @@ window.onload = () => {
     startBtn.onclick = () => {
         gameLoop();
         startBtn.style.display = "none";
+        headerImages.style.display = "none";
+        middleSection.style.display = "none";
+        middleDiv.style.display = "none";
+        bodyDiv.style.display = "none";
+        footerImages.style.display = "none";
         header1Display.style.display = "block";
         header2Display.style.display = "block";
     };
@@ -31,7 +41,7 @@ window.onload = () => {
     let pumpkinArray = [];
 
     function gameLoop() {
-        if(score >= 3) {
+        if(score >= 10) {
             cancelAnimationFrame(frameId);
             alert('You Won!');
             window.location.reload(); 
@@ -46,7 +56,7 @@ window.onload = () => {
         witch.draw();
         barra.draw();
 
-        if(frameId % 1 === 0) rainArray.push(new Rain());
+        rainArray.push(new Rain());
         if(frameId % 324 === 0) pumpkinArray.push(new Pumpkin());
 
         let witchBelowBarra = 
