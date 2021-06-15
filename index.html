@@ -8,37 +8,44 @@
     <title>Rainy Witch</title>
 </head>
 <body>
+    <div>
+        <img id = "littleWitch1" src = "images/witchRight.png">
+        <img id = "littleWitch2" src = "images/witchLeft.png">
+    </div>
+    
     <header>
         <div id = "header1"><p>Points<br><span id = "points">0</span></p></div>
         <div id = "header2"><p id = "health-p">Health<br><span id = "health">100%</span></p></div>
     </header>
 
     <div id = "header-images">
-        <img class = "headerWitchImg" src = "images/witchRight.png">
-        <img class = "headerPumpkinImg" src = "images/pumpkin.png">
+        <img id = "headerLeftPumpkinImg" src = "images/pumpkin.png">
+        <img id = "headerRightPumpkinImg" src = "images/pumpkin.png">
     </div>
 
-    <section id = "middle-section"></section> 
     
-    <div id = "body-div"><p id = "body-paragraph">Stay out of the rain!<br>Collect 10 pumpkins while avoiding the water.</p></div>
-    
-    <div id = "middle-div">
-        <img id = "melting-witch" src = "images/meltingWitch.png">
+
+    <section id = "middle-section">
+        <p id = "gameTitle">Rainy Witch</p>
+        
+        <div id = "body-div"><p id = "body-paragraph">Stay out of the rain!<br>Collect 10 pumpkins while avoiding the water.</p></div>
+        
+        <img id = "center-witch" src = "images/witchRight.png">
         <img id = "rain-image1" src = "images/rain.png">
         <img id = "rain-image2" src = "images/rain.png">
-    </div>
-    
-    <div id = "start-btn-div">
-        <button id="start-button">Start Game</button>
-    </div> 
-    
+        
+        <div id = "start-btn-div">
+            <button id="start-button">Start Game</button>
+        </div> 
+    </section>
+
     <div id="game-board">
         <canvas id="canvasId" width = "4000" height = "2250"></canvas>
     </div>
     
     <footer id = "footer-images">
-        <img class = "headerPumpkinImg" src = "images/pumpkin.png">
-        <img class = "headerWitchImg" src = "images/witchLeft.png">
+        <img id = "footerRightPumpkinImg" src = "images/pumpkin.png">
+        <img id = "footerLeftPumpkinImg" src = "images/pumpkin.png">
     </footer>
 
     <script type="text/javascript" src="game.js"></script>
