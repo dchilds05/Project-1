@@ -3,7 +3,7 @@ window.onload = () => {
     const canvas = document.getElementById('canvasId');
     const canvasCtx = canvas.getContext('2d');
 
-    let frameId = null;
+    
 
     let startBtn = document.getElementById('start-button');
     let header1Display = document.querySelector("#header1");
@@ -12,20 +12,15 @@ window.onload = () => {
     let middleSection = document.querySelector("#middle-section");
     let bodyDiv = document.querySelector("#body-div");
     let footerImages = document.querySelector("#footer-images");
-    //let littleWitch1 = document.querySelector("#littleWitch1");
-    //let littleWitch2 = document.querySelector("#littleWitch2");
 
     header1Display.style.display = "none";
     header2Display.style.display = "none";
 
-    //let moveLittleWitch = function(littleWitch) {
-    //    if(littleWitch)
-    //}
-
-    //moveLittleWitch(littleWitch1);
-    //moveLittleWitch(littleWitch2);
+    let frameId = null;
+    let frameId2 = null;
 
     startBtn.onclick = () => {
+        clearInterval(littleWitches);
         gameLoop();
         startBtn.style.display = "none";
         headerImages.style.display = "none";
@@ -105,6 +100,12 @@ window.onload = () => {
     let witchImgLeft = new Image();
     witchImgLeft.src = './images/witchLeft.png';
 
+    let witchImgUp = new Image();
+    witchImgUp.src = './images/witchUp.png';
+
+    let witchImgDown = new Image();
+    witchImgDown.src = './images/witchDown.png';
+
 
     const witch = {
         image: witchImgRight,
@@ -117,6 +118,56 @@ window.onload = () => {
             canvasCtx.drawImage(this.image, this.x, this.y, this.width, this.height);
         }
     };
+
+    class littleWitch {
+        constructor (image, x, y) {
+        this.image = image,
+        this.x = x,
+        this.y = y,
+        this.width = 200,
+        this.height = 160,
+        this.speed = 20;
+        }
+
+        draw () {
+            canvasCtx.drawImage(this.image, this.x, this.y, this.width, this.height);
+        }
+
+        move () {
+            if(this.y <= 50 && this.x < canvas.width - 400){
+                this.image = witchImgRight;
+                this.y = 50;
+                this.x += this.speed;
+            } else if (this.x >= canvas.width - 400 && this.y < canvas.height - 170) {
+                this.image = witchImgDown;
+                this.x = canvas.width - 400;
+                this.y += this.speed;
+            } else if (this.y >= canvas.height - 170 && this.x > 200){
+                this.image = witchImgLeft;
+                this.y = canvas.height - 170;
+                this.x -= this.speed;
+            } else if (this.x <= 200 && this.y > 50){
+                this.image = witchImgUp;
+                this.x = 200;
+                this.y -= this.speed;
+            }
+        }
+    };
+
+    let littleWitch1 = new littleWitch (witchImgRight, 200, 50);
+    let littleWitch2 = new littleWitch (witchImgLeft, canvas.width - 400, canvas.height - 170);
+    
+    littleWitch1.draw();
+    littleWitch2.draw();
+    
+    let littleWitches = setInterval(() => {
+        canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+        littleWitch1.draw();
+        littleWitch2.draw();
+        littleWitch1.move();
+        littleWitch2.move();
+    }, 17);
+    
 
     let movingLeft = true;
 

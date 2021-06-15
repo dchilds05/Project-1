@@ -13,20 +13,8 @@
     z-index: -1;
 }
 
-#littleWitch1 {
-    position: fixed;
-    height: 60px;
-    width: 100px;
-    top: 1%;
-    left: 1%;
-}
-
-#littleWitch2 {
-    position: fixed;
-    height: 60px;
-    width: 100px;
-    bottom: 1%;
-    right: 1%;
+#witchRight, #witchLeft, #witchUp, #witchDown{
+    display: none;
 }
 
 header {
@@ -34,8 +22,8 @@ header {
     justify-content: space-between;
     align-items: flex-start;
     color: #74FCB5;
-    font-family:'Courier New', Courier, monospace;
-    font-size: 30px;
+    font-family:'Mountains of Christmas', cursive;
+    font-size: 50px;
     margin: 0 40px;
 }
 
@@ -112,10 +100,9 @@ header {
 
 #center-witch {
     position: fixed;
-    height: 100px;
-    width: 166px;
+    height: 15%;
     top: 47%;
-    left: 38%;
+    left: 42%;
 }
 
 #rain-image1 {
