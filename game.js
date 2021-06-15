@@ -243,8 +243,7 @@ window.onload = () => {
                 witch.image = witchImgLeft;
 				if (witchTouchingBarra){
                     witch.x = barra.x + barra.width + 80;
-                }
-                if (witch.x > 0) {
+                } else if (witch.x > 0) {
 					witch.x -= witch.speed;
 				} else {
 					witch.x = 0;
@@ -254,8 +253,7 @@ window.onload = () => {
                 witch.image = witchImgRight;
                 if (witchTouchingBarra){
                     witch.x = barra.x - (1/2 * barra.width) - 80;
-                }
-				if (witch.x < canvas.width - witch.width) {
+                } else if (witch.x < canvas.width - witch.width) {
 					witch.x += witch.speed;
 				} else {
 					witch.x = canvas.width - witch.width;
@@ -264,8 +262,7 @@ window.onload = () => {
             case 38: //up key
                 if (witchTouchingBarra){
                     witch.y = barra.y + barra.height + witch.height;
-                }
-                if (witch.y > 0) {
+                } else if (witch.y > 0) {
                     witch.y -= witch.speed;
                 } else {
                     witch.y = 0;
@@ -274,8 +271,7 @@ window.onload = () => {
             case 40: //down key
                 if (witchTouchingBarra){
                     witch.y = barra.y - (2 * witch.height);
-                }
-                if (witch.y < canvas.height - witch.height) {
+                } else if (witch.y < canvas.height - witch.height) {
                     witch.y += witch.speed;
                 } else {
                     witch.y = canvas.height - witch.height;
