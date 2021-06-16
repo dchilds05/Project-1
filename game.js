@@ -1,5 +1,17 @@
 window.onload = () => {
 
+    //HEALTH BAR COMPONENTS
+    let health10 = document.getElementById('health10');
+    let health20 = document.getElementById('health20');
+    let health30 = document.getElementById('health30');
+    let health40 = document.getElementById('health40');
+    let health50 = document.getElementById('health50');
+    let health60 = document.getElementById('health60');
+    let health70 = document.getElementById('health70');
+    let health80 = document.getElementById('health80');
+    let health90 = document.getElementById('health90');
+    let health100 = document.getElementById('health100');
+
     //SETTING UP PRE-GAME
     let startBtn = document.getElementById('start-button');
     let header1Display = document.querySelector("#header1");
@@ -29,7 +41,7 @@ window.onload = () => {
     const barra = new Barra(canvas, canvasCtx);
     const witch = new Witch(canvas, canvasCtx);
     
-    function updateScore(){
+    function updateHealth(){
         let witchBelowBarra = 
         witch.x > barra.x  - (witch.width/2) &&
         witch.x + witch.width < barra.x + barra.width + (witch.width/2) &&
@@ -42,7 +54,48 @@ window.onload = () => {
             healthPoints -= (1/5);
         }
 
-        pointsHTML.innerHTML = score;
+        if(healthPoints === 100) {
+            health100.style.display = "inline"; 
+        }
+        if(healthPoints < 100 && healthPoints > 90) {
+            health100.style.display = "none"; 
+            health90.style.display = "inline";
+        }
+        if(healthPoints < 90 && healthPoints > 80) {
+            health90.style.display = "none"; 
+            health80.style.display = "inline";
+        }
+        if(healthPoints < 80 && healthPoints > 70) {
+            health80.style.display = "none"; 
+            health70.style.display = "inline";
+        }
+        if(healthPoints < 70 && healthPoints > 60) {
+            health70.style.display = "none"; 
+            health60.style.display = "inline";
+        }
+        if(healthPoints < 60 && healthPoints > 50) {
+            health60.style.display = "none"; 
+            health50.style.display = "inline";
+        }
+        if(healthPoints < 50 && healthPoints > 40) {
+            health50.style.display = "none"; 
+            health40.style.display = "inline";
+        }
+        if(healthPoints < 40 && healthPoints > 30) {
+            health40.style.display = "none"; 
+            health30.style.display = "inline";
+        }
+        if(healthPoints < 30 && healthPoints > 20) {
+            health30.style.display = "none"; 
+            health20.style.display = "inline";
+        }
+        if(healthPoints < 20 && healthPoints > 10) {
+            health20.style.display = "none"; 
+            health10.style.display = "inline";
+        }
+        if(healthPoints < 5 && healthPoints > 0) {
+            health10.style.display = "none";
+        }
     }
 
 
@@ -79,7 +132,6 @@ window.onload = () => {
 
     function gameLoop() {
         //CHECKING FOR WIN OR LOSE
-        console.log(Number(healthPoints));
         if(score >= 10) {
             cancelAnimationFrame(frameId);
             alert('You Won!');
@@ -110,7 +162,9 @@ window.onload = () => {
             if(item.checkForWitchContact(witch, pumpkinArray)) score++;
         });
 
-        updateScore();
+        updateHealth();
+
+        pointsHTML.innerHTML = score;
     
         frameId = requestAnimationFrame(gameLoop);
         }
