@@ -1,10 +1,6 @@
 window.onload = () => {
 
     //SETTING UP PRE-GAME
-
-    const canvas = document.getElementById('canvasId');
-    const canvasCtx = canvas.getContext('2d');
-
     let startBtn = document.getElementById('start-button');
     let header1Display = document.querySelector("#header1");
     let header2Display = document.querySelector("#header2");
@@ -16,7 +12,6 @@ window.onload = () => {
     header1Display.style.display = "none";
     header2Display.style.display = "none";
 
-    let healthPointsHTML = document.querySelector("#health");
     let healthPoints = 100;
 
     let pointsHTML = document.querySelector("#points");
@@ -28,10 +23,12 @@ window.onload = () => {
 
     let pumpkinArray = [];
 
-    const barra = new Barra(canvas, canvasCtx);
-    
-    const witch = new Witch(canvas, canvasCtx);
+    const canvas = document.getElementById('canvasId');
+    const canvasCtx = canvas.getContext('2d');
 
+    const barra = new Barra(canvas, canvasCtx);
+    const witch = new Witch(canvas, canvasCtx);
+    
     function updateScore(){
         let witchBelowBarra = 
         witch.x > barra.x  - (witch.width/2) &&
@@ -44,9 +41,8 @@ window.onload = () => {
         if (!witchBelowBarra && healthPoints > 0){
             healthPoints -= (1/5);
         }
-        healthPointsHTML.innerText = `${Math.round(healthPoints)} %`;
 
-        pointsHTML.innerText = score;
+        pointsHTML.innerHTML = score;
     }
 
 
@@ -83,11 +79,12 @@ window.onload = () => {
 
     function gameLoop() {
         //CHECKING FOR WIN OR LOSE
+        console.log(Number(healthPoints));
         if(score >= 10) {
             cancelAnimationFrame(frameId);
             alert('You Won!');
             window.location.reload(); 
-        } else if (Math.round(healthPoints) === 0) {
+        } else if (healthPoints < 0) {
             cancelAnimationFrame(frameId);
             alert('You Lost!');
             window.location.reload(); 
@@ -116,9 +113,9 @@ window.onload = () => {
         updateScore();
     
         frameId = requestAnimationFrame(gameLoop);
-        } 
+        }
     }
 
     window.addEventListener('keydown', (event) => witch.moveWitch(event, barra));
-
+    
 };

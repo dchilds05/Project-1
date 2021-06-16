@@ -29,10 +29,24 @@ header {
 
 #header1 {
     text-align: center;
+    position: fixed;
+    top: 0px;
 }
 
-#header2 {
+#health-p {
     text-align: center;
+    position: fixed;
+    top: 0px;
+    right: 50px;
+}
+
+#health{
+    border: 1px solid #74FCB5;
+    position: fixed;
+    top: 140px;
+    right: 20px;
+    height: 30px;
+    width: 160px;
 }
 
 #gameTitle {
@@ -145,4 +159,114 @@ header {
     display: flex;
     justify-content: space-between;
     padding-left: 1%;
+}
+
+
+
+
+
+
+
+
+/* HEALTH BAR */
+
+
+#health10 {
+    background-color: #74FCB5;
+    border: 1px solid #74FCB5;
+    position: fixed;
+    top: 90px;
+    right: 164px;
+    height: 30px;
+    width: 16px;
+}
+
+#health20 {
+    background-color: #74FCB5;
+    border: 1px solid #74FCB5;
+    position: fixed;
+    top: 90px;
+    right: 148px;
+    height: 30px;
+    width: 16px;
+}
+
+#health30 {
+    background-color: #74FCB5;
+    border: 1px solid #74FCB5;
+    position: fixed;
+    top: 90px;
+    right: 132px;
+    height: 30px;
+    width: 16px;
+}
+
+#health40 {
+    background-color: #74FCB5;
+    border: 1px solid #74FCB5;
+    position: fixed;
+    top: 90px;
+    right: 116px;
+    height: 30px;
+    width: 16px;
+}
+
+#health50 {
+    background-color: #74FCB5;
+    border: 1px solid #74FCB5;
+    position: fixed;
+    top: 90px;
+    right: 100px;
+    height: 30px;
+    width: 16px;
+}
+
+#health60 {
+    background-color: #74FCB5;
+    border: 1px solid #74FCB5;
+    position: fixed;
+    top: 90px;
+    right: 84px;
+    height: 30px;
+    width: 16px;
+}
+
+#health70 {
+    background-color: #74FCB5;
+    border: 1px solid #74FCB5;
+    position: fixed;
+    top: 90px;
+    right: 68px;
+    height: 30px;
+    width: 16px;
+}
+
+#health80 {
+    background-color: #74FCB5;
+    border: 1px solid #74FCB5;
+    position: fixed;
+    top: 90px;
+    right: 52px;
+    height: 30px;
+    width: 16px;
+}
+
+#health90 {
+    background-color: #74FCB5;
+    border: 1px solid #74FCB5;
+    position: fixed;
+    top: 90px;
+    right: 36px;
+    height: 30px;
+    width: 16px;
+}
+
+#health100 {
+    background-color: #74FCB5;
+    border: 1px solid #74FCB5;
+    position: fixed;
+    top: 90px;
+    right: 20px;
+    height: 30px;
+    width: 16px;
 }
