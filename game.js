@@ -24,6 +24,8 @@ window.onload = () => {
     header1Display.style.display = "none";
     header2Display.style.display = "none";
 
+    myMusic = document.querySelector("#music");
+    
     let healthPoints = 100;
 
     let pointsHTML = document.querySelector("#points");
@@ -121,6 +123,7 @@ window.onload = () => {
     startBtn.onclick = () => {
         clearInterval(littleWitches);
         gameLoop();
+        myMusic.play();
         startBtn.style.display = "none";
         headerImages.style.display = "none";
         middleSection.style.display = "none";
