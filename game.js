@@ -94,7 +94,7 @@ window.onload = () => {
     } 
     }
 
-    let witch = new Witch(canvas, canvasCtx);
+    const witch = new Witch(canvas, canvasCtx);
     
     let littleWitch1 = new littleWitch (witchImgRight, 200, 50, canvas, canvasCtx);
     let littleWitch2 = new littleWitch (witchImgLeft, canvas.width - 400, canvas.height - 170, canvas, canvasCtx);
@@ -111,35 +111,7 @@ window.onload = () => {
     }, 17);
     
 
-    let movingLeft = true;
-
-    const barra = {
-        x: canvas.width / 2,
-        y: canvas.height / 2 - 500,
-        width: canvas.width * (1/5),
-        height: canvas.height * (80/2250),
-        speed: 5,
-        draw () {
-            canvasCtx.fillStyle = "#442A2C";
-            canvasCtx.fillRect(this.x, this.y, this.width, this.height);
-            canvasCtx.strokeStyle = "#271513";
-            canvasCtx.lineWidth = 10;
-            canvasCtx.strokeRect(this.x, this.y, this.width, this.height);
-            if (movingLeft === true){
-                if(this.x <= 0){
-                    movingLeft = false;
-                } else {
-                    this.x -= this.speed;
-                }
-            } else {
-                if ((this.x + this.width) >= canvas.width){
-                    movingLeft = true;
-                } else {
-                    this.x += this.speed;
-                }
-            }
-        }
-    }
+    const barra = new Barra(canvas, canvasCtx);
 
     class Rain {
         constructor() {
@@ -228,62 +200,6 @@ window.onload = () => {
         }
     }
 
-
-
-
-    window.addEventListener('keydown', moveWitch);
-
-	function moveWitch(event) {
-
-        let witchTouchingBarra = 
-        witch.x < barra.x + barra.width &&
-        witch.x + witch.width > barra.x &&
-        witch.y < barra.y + barra.height &&
-        witch.y + witch.height > barra.y;
-
-		switch (event.keyCode) {
-			case 37: //left key
-                witch.image = witchImgLeft;
-				if (witchTouchingBarra){
-                    witch.x = barra.x + barra.width + 80;
-                } else if (witch.x > 0) {
-					witch.x -= witch.speed;
-				} else {
-					witch.x = 0;
-				}
-				break;
-			case 39: //right key
-                witch.image = witchImgRight;
-                if (witchTouchingBarra){
-                    witch.x = barra.x - (1/2 * barra.width) - 80;
-                } else if (witch.x < canvas.width - witch.width) {
-					witch.x += witch.speed;
-				} else {
-					witch.x = canvas.width - witch.width;
-				}
-				break;
-            case 38: //up key
-                if (witchTouchingBarra){
-                    witch.y = barra.y + barra.height + witch.height;
-                } else if (witch.y > 0) {
-                    witch.y -= witch.speed;
-                } else {
-                    witch.y = 0;
-                }
-                break;
-            case 40: //down key
-                if (witchTouchingBarra){
-                    witch.y = barra.y - (2 * witch.height);
-                } else if (witch.y < canvas.height - witch.height) {
-                    witch.y += witch.speed;
-                } else {
-                    witch.y = canvas.height - witch.height;
-                }
-                break;
-            default:
-                break;
-		}
-
-    }
+    window.addEventListener('keydown', (event) => witch.moveWitch(event, barra));
 
 };
