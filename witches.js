@@ -62,7 +62,6 @@ let witchImgRight = new Image();
             this.ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
         }
         moveWitch(event, barra) {
-            console.log(event)
 
             let witchTouchingBarra = 
             this.x < barra.x + barra.width &&

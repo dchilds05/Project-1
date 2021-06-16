@@ -3,8 +3,6 @@ window.onload = () => {
     const canvas = document.getElementById('canvasId');
     const canvasCtx = canvas.getContext('2d');
 
-    
-
     let startBtn = document.getElementById('start-button');
     let header1Display = document.querySelector("#header1");
     let header2Display = document.querySelector("#header2");
@@ -15,9 +13,6 @@ window.onload = () => {
 
     header1Display.style.display = "none";
     header2Display.style.display = "none";
-
-    let frameId = null;
-    let frameId2 = null;
 
     startBtn.onclick = () => {
         clearInterval(littleWitches);
@@ -37,13 +32,35 @@ window.onload = () => {
     let pointsHTML = document.querySelector("#points");
     let score = 0;
 
+    let frameId = null;
+
     let rainArray = [];
 
     let pumpkinArray = [];
 
-    function gameLoop() {
-        pointsHTML.innerText = score;
+    const barra = new Barra(canvas, canvasCtx);
+    
+    const witch = new Witch(canvas, canvasCtx);
+    
+    let littleWitch1 = new littleWitch (witchImgRight, 200, 50, canvas, canvasCtx);
+    let littleWitch2 = new littleWitch (witchImgLeft, canvas.width - 400, canvas.height - 170, canvas, canvasCtx);
+    
+    littleWitch1.draw();
+    littleWitch2.draw();
+    
+    let littleWitches = setInterval(() => {
+        canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+        littleWitch1.draw();
+        littleWitch2.draw();
+        littleWitch1.move();
+        littleWitch2.move();
+    }, 17);
+    
 
+  
+
+    function gameLoop() {
+     
         if(score >= 2) {
             cancelAnimationFrame(frameId);
             alert('You Won!');
@@ -59,7 +76,7 @@ window.onload = () => {
         witch.draw();
         barra.draw();
 
-        rainArray.push(new Rain());
+        rainArray.push(new Rain(canvas, canvasCtx));
 
         if(frameId % 324 === 0) pumpkinArray.push(new Pumpkin());
 
@@ -80,7 +97,7 @@ window.onload = () => {
         
         rainArray.forEach((drop) => {
             drop.draw();
-            drop.move();
+            drop.move(barra, rainArray);
         });
         
         pumpkinArray.forEach((item) => {
@@ -93,63 +110,6 @@ window.onload = () => {
 
     } 
     }
-
-    const witch = new Witch(canvas, canvasCtx);
-    
-    let littleWitch1 = new littleWitch (witchImgRight, 200, 50, canvas, canvasCtx);
-    let littleWitch2 = new littleWitch (witchImgLeft, canvas.width - 400, canvas.height - 170, canvas, canvasCtx);
-    
-    littleWitch1.draw();
-    littleWitch2.draw();
-    
-    let littleWitches = setInterval(() => {
-        canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
-        littleWitch1.draw();
-        littleWitch2.draw();
-        littleWitch1.move();
-        littleWitch2.move();
-    }, 17);
-    
-
-    const barra = new Barra(canvas, canvasCtx);
-
-    class Rain {
-        constructor() {
-            this.xPos = Math.random() * canvas.width,
-            this.yPos = 0,
-            this.xRad = 5,
-            this.yRad = 70,
-            this.speed = 50;
-        }
-
-        draw(){
-            canvasCtx.fillStyle = "#69F6E3";
-            canvasCtx.beginPath();
-            canvasCtx.ellipse(this.xPos, this.yPos, this.xRad, this.yRad, 0, 0, 2 * Math.PI);
-            canvasCtx.fill();
-        }
-
-        move(){
-            let touchingBarra = 
-            this.xPos > barra.x &&
-            this.xPos < barra.x + barra.width &&
-            this.yPos + this.yRad > barra.y - 20 &&
-            this.yPos + this.yRad < barra.y + barra.height;
-
-
-            if (this.yPos > canvas.height) {
-				rainArray.splice(this, 1);
-            } else if (touchingBarra){
-                this.yPos = 0;
-                this.xPos = Math.random() * canvas.width;
-            } else {
-				this.yPos += this.speed;
-			}
-
-        }
-    }
-
-
 
     let pumpkinImg = new Image();
     pumpkinImg.src = './images/pumpkin.png';
