@@ -1,5 +1,7 @@
 window.onload = () => {
 
+    //SETTING UP PRE-GAME
+
     const canvas = document.getElementById('canvasId');
     const canvasCtx = canvas.getContext('2d');
 
@@ -13,18 +15,6 @@ window.onload = () => {
 
     header1Display.style.display = "none";
     header2Display.style.display = "none";
-
-    startBtn.onclick = () => {
-        clearInterval(littleWitches);
-        gameLoop();
-        startBtn.style.display = "none";
-        headerImages.style.display = "none";
-        middleSection.style.display = "none";
-        bodyDiv.style.display = "none";
-        footerImages.style.display = "none";
-        header1Display.style.display = "block";
-        header2Display.style.display = "block";
-    };
 
     let healthPointsHTML = document.querySelector("#health");
     let healthPoints = 100;
@@ -41,6 +31,26 @@ window.onload = () => {
     const barra = new Barra(canvas, canvasCtx);
     
     const witch = new Witch(canvas, canvasCtx);
+
+    function updateScore(){
+        let witchBelowBarra = 
+        witch.x > barra.x  - (witch.width/2) &&
+        witch.x + witch.width < barra.x + barra.width + (witch.width/2) &&
+        witch.y > barra.y + barra.height;
+
+        if (witchBelowBarra && healthPoints < 100){
+            healthPoints += (1/5);
+        }   
+        if (!witchBelowBarra && healthPoints > 0){
+            healthPoints -= (1/5);
+        }
+        healthPointsHTML.innerText = `${Math.round(healthPoints)} %`;
+
+        pointsHTML.innerText = score;
+    }
+
+
+    //PRE-GAME ANIMATION
     
     let littleWitch1 = new littleWitch (witchImgRight, 200, 50, canvas, canvasCtx);
     let littleWitch2 = new littleWitch (witchImgLeft, canvas.width - 400, canvas.height - 170, canvas, canvasCtx);
@@ -55,13 +65,25 @@ window.onload = () => {
         littleWitch1.move();
         littleWitch2.move();
     }, 17);
-    
 
-  
+
+    //CLICK EVENT AND START GAME
+
+    startBtn.onclick = () => {
+        clearInterval(littleWitches);
+        gameLoop();
+        startBtn.style.display = "none";
+        headerImages.style.display = "none";
+        middleSection.style.display = "none";
+        bodyDiv.style.display = "none";
+        footerImages.style.display = "none";
+        header1Display.style.display = "block";
+        header2Display.style.display = "block";
+    };
 
     function gameLoop() {
-     
-        if(score >= 2) {
+        //CHECKING FOR WIN OR LOSE
+        if(score >= 10) {
             cancelAnimationFrame(frameId);
             alert('You Won!');
             window.location.reload(); 
@@ -77,87 +99,24 @@ window.onload = () => {
         barra.draw();
 
         rainArray.push(new Rain(canvas, canvasCtx));
-
-        if(frameId % 324 === 0) pumpkinArray.push(new Pumpkin());
-
-        let witchBelowBarra = 
-        witch.x > barra.x  - (witch.width/2) &&
-        witch.x + witch.width < barra.x + barra.width + (witch.width/2) &&
-        witch.y > barra.y + barra.height;
-
-        if (witchBelowBarra && healthPoints < 100){
-            healthPoints += (1/5);
-        }   
-        if (!witchBelowBarra && healthPoints > 0){
-            healthPoints -= (1/5);
-        }
-        healthPointsHTML.innerText = `${Math.round(healthPoints)} %`;
-
-        pointsHTML.innerText = score;
         
         rainArray.forEach((drop) => {
             drop.draw();
             drop.move(barra, rainArray);
         });
+
+        if(frameId % 324 === 0) pumpkinArray.push(new Pumpkin(canvas, canvasCtx));
         
         pumpkinArray.forEach((item) => {
             item.draw();
-            item.move();
-            item.checkForWitchContact();
+            item.move(barra, pumpkinArray);
+            if(item.checkForWitchContact(witch, pumpkinArray)) score++;
         });
 
+        updateScore();
+    
         frameId = requestAnimationFrame(gameLoop);
-
-    } 
-    }
-
-    let pumpkinImg = new Image();
-    pumpkinImg.src = './images/pumpkin.png';
-
-    class Pumpkin {
-        constructor() {
-            this.image = pumpkinImg,
-            this.x = Math.random() * canvas.width,
-            this.y = 0,
-            this.height = canvas.height / 12,
-            this.width = canvas.width / 24,
-            this.speed = 5;
-        }
-
-        draw(){
-            canvasCtx.drawImage(this.image, this.x, this.y, this.width, this.height);
-        }
-
-        move(){
-            let touchingBarra = 
-            this.x > barra.x &&
-            this.x < barra.x + barra.width &&
-            this.y + this.height > barra.y - 20 &&
-            this.y + this.height < barra.y + barra.height;
-
-
-            if (this.y > canvas.height) {
-				pumpkinArray.splice(this, 1);
-            } else if (touchingBarra){
-                this.y = 0;
-                this.x = Math.random() * canvas.width;
-            } else {
-				this.y += this.speed;
-			}
-        }
-
-        checkForWitchContact(){
-            let contactWithWitch = 
-                witch.x < this.x + this.width &&
-                witch.x + witch.width > this.x &&
-                witch.y < this.y + this.height &&
-                witch.y + witch.height > this.y;
-
-            if(contactWithWitch){
-                pumpkinArray.splice(this, 1);
-                score++;
-            }
-        }
+        } 
     }
 
     window.addEventListener('keydown', (event) => witch.moveWitch(event, barra));
