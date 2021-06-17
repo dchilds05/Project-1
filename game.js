@@ -40,8 +40,14 @@ window.onload = () => {
     const canvas = document.getElementById('canvasId');
     const canvasCtx = canvas.getContext('2d');
 
-    const barra = new Barra(canvas, canvasCtx);
+    let barra = new Barra(canvas, canvasCtx, canvas.width/5);
+    let shortBarra = new Barra(canvas, canvasCtx, canvas.width/10);
     const witch = new Witch(canvas, canvasCtx);
+
+    let pumpkinImg = new Image();
+    pumpkinImg.src = './images/pumpkin.png';
+    let cauldronImg = new Image();
+    cauldronImg.src = './images/cauldron.png';
     
     function updateHealth(){
         let witchBelowBarra = 
@@ -55,7 +61,6 @@ window.onload = () => {
         if (!witchBelowBarra && healthPoints > 0){
             healthPoints -= (1/5);
         }
-
         if(healthPoints === 100) {
             health100.style.display = "inline"; 
         }
@@ -100,6 +105,20 @@ window.onload = () => {
         }
     }
 
+    function resetHealth(){
+        healthPoints = 100;
+        health10.style.display = "inline";
+        health20.style.display = "inline";
+        health30.style.display = "inline";
+        health40.style.display = "inline";
+        health50.style.display = "inline";
+        health60.style.display = "inline";
+        health70.style.display = "inline";
+        health80.style.display = "inline";
+        health90.style.display = "inline";
+        health100.style.display = "inline";
+    }
+
 
     //PRE-GAME ANIMATION
     
@@ -135,20 +154,22 @@ window.onload = () => {
 
     function gameLoop() {
         //CHECKING FOR WIN OR LOSE
-        if(score >= 10) {
+        if(score >= 3) {
             cancelAnimationFrame(frameId);
-            alert('You Won!');
-            window.location.reload(); 
+            alert('Congratulations, you won! See if you can handle Level 2, with fast-falling cauldrons and a smaller protective bar!');
+            score = 0;
+            resetHealth();
+            bonusGameLoop(); 
         } else if (healthPoints < 0) {
             cancelAnimationFrame(frameId);
-            alert('You Lost!');
+            alert('Due to either a lack of effort or pure incompetence, you have lost the game. You must be incredibly embarrassed, so you can try again.');
             window.location.reload(); 
         } else {
         
         canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
 
         witch.draw();
-        barra.draw();
+        barra.draw("#442A2C", "#271513");
 
         rainArray.push(new Rain(canvas, canvasCtx));
         
@@ -157,7 +178,7 @@ window.onload = () => {
             drop.move(barra, rainArray);
         });
 
-        if(frameId % 324 === 0) pumpkinArray.push(new Pumpkin(canvas, canvasCtx));
+        if(frameId % 324 === 0) pumpkinArray.push(new Pumpkin(canvas, canvasCtx, pumpkinImg, 5));
         
         pumpkinArray.forEach((item) => {
             item.draw();
@@ -172,6 +193,51 @@ window.onload = () => {
         frameId = requestAnimationFrame(gameLoop);
         }
     }
+
+    function bonusGameLoop() {
+
+        barra = shortBarra;
+        canvas.id = "bonusCanvasId";
+
+        //CHECKING FOR WIN OR LOSE
+        if(score >= 3) {
+            cancelAnimationFrame(frameId);
+            alert('You beat the game, great job!');
+            window.location.reload(); 
+        } else if (healthPoints < 0) {
+            cancelAnimationFrame(frameId);
+            alert('You Lost! Don\'t feel too bad, this level is pretty hard. Try again!');
+            window.location.reload(); 
+        } else {
+        
+        canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+
+        witch.draw();
+        barra.draw("#E02400", "#8B0101");
+
+        rainArray.push(new Rain(canvas, canvasCtx));
+        
+        rainArray.forEach((drop) => {
+            drop.draw();
+            drop.move(barra, rainArray);
+        });
+
+        if(frameId % 324 === 0) pumpkinArray.push(new Pumpkin(canvas, canvasCtx, cauldronImg, 10));
+        
+        pumpkinArray.forEach((item) => {
+            item.draw();
+            item.move(barra, pumpkinArray);
+            if(item.checkForWitchContact(witch, pumpkinArray)) score++;
+        });
+
+        updateHealth();
+
+        pointsHTML.innerHTML = score;
+    
+        frameId = requestAnimationFrame(bonusGameLoop);
+        }
+    }
+
 
     window.addEventListener('keydown', (event) => witch.moveWitch(event, barra));
     

@@ -13,6 +13,19 @@
     z-index: -1;
 }
 
+#bonusCanvasId {
+    position: fixed;
+    background-image: url(./images//bonusBackground.jpg);
+    background-position: center, center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
 #witchRight, #witchLeft, #witchUp, #witchDown{
     display: none;
 }

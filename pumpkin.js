@@ -1,16 +1,15 @@
-let pumpkinImg = new Image();
-    pumpkinImg.src = './images/pumpkin.png';
+
 
     class Pumpkin {
-        constructor(canvasValue, canvasContext) {
+        constructor(canvasValue, canvasContext, image, speed) {
             this.canvas = canvasValue,
             this.ctx = canvasContext, 
-            this.image = pumpkinImg,
+            this.image = image,
             this.x = Math.random() * this.canvas.width,
             this.y = 0,
             this.height = this.canvas.height / 12,
             this.width = this.canvas.width / 24,
-            this.speed = 5;
+            this.speed = speed;
         }
 
         draw(){
