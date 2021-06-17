@@ -1,6 +1,7 @@
 window.onload = () => {
 
     //HEALTH BAR COMPONENTS
+
     let health10 = document.getElementById('health10');
     let health20 = document.getElementById('health20');
     let health30 = document.getElementById('health30');
@@ -13,6 +14,7 @@ window.onload = () => {
     let health100 = document.getElementById('health100');
 
     //SETTING UP PRE-GAME
+
     let startBtn = document.getElementById('start-button');
     let header1Display = document.querySelector("#header1");
     let header2Display = document.querySelector("#header2");
@@ -24,6 +26,9 @@ window.onload = () => {
     header1Display.style.display = "none";
     header2Display.style.display = "none";
 
+    
+    //DECLARATION OF VARIABLES
+
     myMusic = document.querySelector("#music");
     
     let healthPoints = 100;
@@ -34,8 +39,10 @@ window.onload = () => {
     let frameId = null;
 
     let rainArray = [];
-
     let pumpkinArray = [];
+    let cauldronArray = [];
+    let redCauldronArray = [];
+
 
     const canvas = document.getElementById('canvasId');
     const canvasCtx = canvas.getContext('2d');
@@ -48,6 +55,20 @@ window.onload = () => {
     pumpkinImg.src = './images/pumpkin.png';
     let cauldronImg = new Image();
     cauldronImg.src = './images/cauldron.png';
+    let RedCauldronImg = new Image();
+    RedCauldronImg.src = './images/redCauldron.png';
+    
+    
+    //FUNCTIONS TO USE WITHIN GAMEPLAY
+
+    function fallingRain(){
+        rainArray.push(new Rain(canvas, canvasCtx));
+        
+        rainArray.forEach((drop) => {
+            drop.draw();
+            drop.move(barra, rainArray);
+        });
+    }
     
     function updateHealth(){
         let witchBelowBarra = 
@@ -153,10 +174,10 @@ window.onload = () => {
     };
 
     function gameLoop() {
-        //CHECKING FOR WIN OR LOSE
+
         if(score >= 10) {
             cancelAnimationFrame(frameId);
-            alert('Congratulations, you won! See if you can handle Level 2, with fast-falling cauldrons and a smaller protective bar!');
+            alert('Congratulations, you won! See if you can handle Level 2, with fast-falling cauldrons and a smaller protective bar. ONLY COLLECT THE GREEN POTION!!!');
             score = 0;
             resetHealth();
             bonusGameLoop(); 
@@ -171,12 +192,7 @@ window.onload = () => {
         witch.draw();
         barra.draw("#442A2C", "#271513");
 
-        rainArray.push(new Rain(canvas, canvasCtx));
-        
-        rainArray.forEach((drop) => {
-            drop.draw();
-            drop.move(barra, rainArray);
-        });
+        fallingRain();
 
         if(frameId % 324 === 0) pumpkinArray.push(new Pumpkin(canvas, canvasCtx, pumpkinImg, 5));
         
@@ -199,7 +215,6 @@ window.onload = () => {
         barra = shortBarra;
         canvas.id = "bonusCanvasId";
 
-        //CHECKING FOR WIN OR LOSE
         if(score >= 10) {
             cancelAnimationFrame(frameId);
             alert('You beat the game, great job!');
@@ -215,19 +230,22 @@ window.onload = () => {
         witch.draw();
         barra.draw("#E02400", "#8B0101");
 
-        rainArray.push(new Rain(canvas, canvasCtx));
+        fallingRain();
+
+        if(frameId % 200 === 0) cauldronArray.push(new Pumpkin(canvas, canvasCtx, cauldronImg, 10));
         
-        rainArray.forEach((drop) => {
-            drop.draw();
-            drop.move(barra, rainArray);
+        cauldronArray.forEach((item) => {
+            item.draw();
+            item.move(barra, cauldronArray);
+            if(item.checkForWitchContact(witch, cauldronArray)) score++;
         });
 
-        if(frameId % 324 === 0) pumpkinArray.push(new Pumpkin(canvas, canvasCtx, cauldronImg, 10));
+        if(frameId % 324 === 0) redCauldronArray.push(new Pumpkin(canvas, canvasCtx, RedCauldronImg, 10));
         
-        pumpkinArray.forEach((item) => {
+        redCauldronArray.forEach((item) => {
             item.draw();
-            item.move(barra, pumpkinArray);
-            if(item.checkForWitchContact(witch, pumpkinArray)) score++;
+            item.move(barra, redCauldronArray);
+            if(item.checkForWitchContact(witch, redCauldronArray)) score--;
         });
 
         updateHealth();
