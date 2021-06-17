@@ -154,7 +154,7 @@ window.onload = () => {
 
     function gameLoop() {
         //CHECKING FOR WIN OR LOSE
-        if(score >= 3) {
+        if(score >= 10) {
             cancelAnimationFrame(frameId);
             alert('Congratulations, you won! See if you can handle Level 2, with fast-falling cauldrons and a smaller protective bar!');
             score = 0;
@@ -200,7 +200,7 @@ window.onload = () => {
         canvas.id = "bonusCanvasId";
 
         //CHECKING FOR WIN OR LOSE
-        if(score >= 3) {
+        if(score >= 10) {
             cancelAnimationFrame(frameId);
             alert('You beat the game, great job!');
             window.location.reload(); 
