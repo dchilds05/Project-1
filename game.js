@@ -30,6 +30,12 @@ window.onload = () => {
     //DECLARATION OF VARIABLES
 
     myMusic = document.querySelector("#music");
+    myMusic.volume = 0.4;
+    witchLaugh = document.querySelector("#witchLaugh");
+    witchLaugh.volume = 0.4;
+    biteSound = document.querySelector("#biteSound");
+    bubblingSound = document.querySelector("#bubbling");
+    failSound = document.querySelector("#failSound");
     
     let healthPoints = 100;
 
@@ -176,12 +182,14 @@ window.onload = () => {
     function gameLoop() {
 
         if(score >= 10) {
+            witchLaugh.play();
             cancelAnimationFrame(frameId);
             alert('Congratulations, you won! See if you can handle Level 2, with fast-falling cauldrons and a smaller protective bar. ONLY COLLECT THE GREEN POTION!!!');
             score = 0;
             resetHealth();
             bonusGameLoop(); 
         } else if (healthPoints < 0) {
+            witchLaugh.play();
             cancelAnimationFrame(frameId);
             alert('Due to either a lack of effort or pure incompetence, you have lost the game. You must be incredibly embarrassed, so you can try again.');
             window.location.reload(); 
@@ -199,7 +207,10 @@ window.onload = () => {
         pumpkinArray.forEach((item) => {
             item.draw();
             item.move(barra, pumpkinArray);
-            if(item.checkForWitchContact(witch, pumpkinArray)) score++;
+            if(item.checkForWitchContact(witch, pumpkinArray)) {
+                biteSound.play();
+                score++;
+            }
         });
 
         updateHealth();
@@ -216,10 +227,12 @@ window.onload = () => {
         canvas.id = "bonusCanvasId";
 
         if(score >= 10) {
+            witchLaugh.play();
             cancelAnimationFrame(frameId);
             alert('You beat the game, great job!');
             window.location.reload(); 
         } else if (healthPoints < 0) {
+            witchLaugh.play();
             cancelAnimationFrame(frameId);
             alert('You Lost! Don\'t feel too bad, this level is pretty hard. Try again!');
             window.location.reload(); 
@@ -237,7 +250,10 @@ window.onload = () => {
         cauldronArray.forEach((item) => {
             item.draw();
             item.move(barra, cauldronArray);
-            if(item.checkForWitchContact(witch, cauldronArray)) score++;
+            if(item.checkForWitchContact(witch, cauldronArray)){
+                bubblingSound.play();
+                score++;
+            }
         });
 
         if(frameId % 324 === 0) redCauldronArray.push(new Pumpkin(canvas, canvasCtx, RedCauldronImg, 10));
@@ -245,7 +261,10 @@ window.onload = () => {
         redCauldronArray.forEach((item) => {
             item.draw();
             item.move(barra, redCauldronArray);
-            if(item.checkForWitchContact(witch, redCauldronArray)) score--;
+            if(item.checkForWitchContact(witch, redCauldronArray)) {
+                failSound.play();
+                score--;
+            }
         });
 
         updateHealth();
