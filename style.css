@@ -165,6 +165,11 @@ header {
     font-size: 40px;
 }
 
+#start-button:hover{
+    cursor: pointer;
+    background-color: rgb(116,252,181,.5);
+}
+
 #footer-images {
     position: fixed;
     bottom: 2%;
