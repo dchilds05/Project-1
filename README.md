@@ -1,4 +1,4 @@
-# Project-1
+# Project1
 RAINY WITCH GAME
 
 Description
